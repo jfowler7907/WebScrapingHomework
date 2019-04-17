@@ -29,7 +29,7 @@ def scrape():
     textContent = []
 
     # Examine the results, then determine element that contains sought info
-    print(soup.prettify())
+    #print(soup.prettify())
 
     #find latest news article
     news_article=soup.find_all("div",class_='content_title')
@@ -37,7 +37,7 @@ def scrape():
         if items.text.strip() != "":
             print(items.text.strip())
     latest_article=news_article[0].text.strip()
-    print(f"\nThe latest article is: "+ latest_article)
+    #print(f"\nThe latest article is: "+ latest_article)
 
     #find latest news article
     news_article_desc=soup.find_all("div",class_='rollover_description_inner')
@@ -45,7 +45,7 @@ def scrape():
         if items.text.strip() != "":
             print(items.text.strip())
     latest_article_desc=news_article_desc[0].text.strip()
-    print(f"\nThe latest article is: "+ latest_article_desc)
+    #print(f"\nThe latest article is: "+ latest_article_desc)
 
     #JPL Space Images
     #create url
@@ -74,7 +74,7 @@ def scrape():
     textContent = []
 
     # Examine the results, then determine element that contains sought info
-    print(soup.prettify())
+    #print(soup.prettify())
 
     #find latest tweet
     mars_soup=soup.find_all("p",class_='TweetTextSize TweetTextSize--normal js-tweet-text tweet-text')
@@ -84,7 +84,7 @@ def scrape():
 
     #Convert above element into a string and replace the image with a blank
     new_var=str(mars_soup[0].text).replace("pic.twitter.com/awJfx8w2YE"," ")
-    print ("Mars weather = "+ new_var)
+    #print ("Mars weather = "+ new_var)
 
     #Mars Facts
     #create url
@@ -98,18 +98,18 @@ def scrape():
 
     # Create tables
     tables = pd.read_html(url)
-    tables
+    #tables
 
-    type(tables)
+    #type(tables)
 
     #Create dataframe from website
     df = tables[0]
     df.columns = ['0', '1']
-    df
+    #df
 
     #Convert into HTML
     html_table = df.to_html()
-    html_table
+    #html_table
 
     #Mars Hemisphere
     #Open url
@@ -144,8 +144,21 @@ def scrape():
 
         img_dict["title"] = title
         img_dict["img_url"] = base_hemisphere_url + url
-        print(img_dict["img_url"])
+        #print(img_dict["img_url"])
         
         hemisphere_image_urls.append(img_dict)
     hemisphere_image_urls
-return()    
+
+    mars_info={
+        "latest_article_desc": latest_article_desc,
+        "featured_image_url": featured_image_url,
+        "new_var": new_var,
+        "html_table": html_table,
+        "hemisphere_image_urls": hemisphere_image_urls
+        }
+
+    # Close the browser after scraping
+    browser.quit()
+
+    #Return results
+    return mars_info 
